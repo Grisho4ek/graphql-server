@@ -32,13 +32,13 @@ module.exports = {
       const user = await User.findOne({ username });
       if (!user) {
         errors.general = 'User not found';
-        throw new UserInputError(errors.general, { errors });
+        throw new UserInputError('User not found', { errors });
       }
 
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        errors.general = 'User not found';
-        throw new UserInputError(errors.general, { errors });
+        errors.general = 'Wrong credentilas';
+        throw new UserInputError('Wrong credentilas', { errors });
       }
       const token = generateToken(user);
 
@@ -71,7 +71,7 @@ module.exports = {
       }
       if (user) {
         throw new UserInputError('Username is taken', {
-          errros: {
+          errors: {
             username: 'This username is taken'
           }
         });
